@@ -1,30 +1,25 @@
 class FeedsController < ApplicationController
+  respond_to :json
 
   def index
-    subscriptee_ids = Subscription.where(:subscripter_id => params[:subscripter_id]).pluck(:subscriptee_id)
-    @events = Event.where('subscriptee_id IN (?) OR event_type is ?', subscriptee_ids, 'list').order('created_at desc')
+    subscriptee_ids = Subscription.by_subscripter_id(params[:subscripter_id]).pluck(:subscriptee_id)
+    @events = Event.by_subscriptee_ids(subscriptee_ids).order('created_at desc')
 
-    render json: @events.to_json
+    respond_with @events
   end
 
   def subscription
     @subscription = Subscription.new(subscription_params)
+    flash[:notice] = 'subscription was successfully created.' if @subscription.save
 
-    if @subscription.save
-      render json: @subscription.to_json
-    else
-      render :nothing => true, :status => 404
-    end
+    respond_with @subscription, :location => nil
   end
 
   def event
     @event = Event.new(event_params)
 
-    if @event.save
-      render json: @event.to_json
-    else
-      render :nothing => true, :status => 404
-    end
+    flash[:notice] = 'event was successfully created.' if @event.save
+    respond_with @event, :location => nil
   end
 
   private

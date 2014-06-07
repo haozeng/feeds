@@ -1,9 +1,0 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-one:
-  subscripter_id: 1
-  subscriptee_id: 1
-
-two:
-  subscripter_id: 1
-  subscriptee_id: 1

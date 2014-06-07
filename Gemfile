@@ -45,6 +45,6 @@ end
 gem 'debugger', group: [:development, :test]
 
 group :development, :test do
-  gem 'rspec-rails', '~> 3.0.0'
+  gem 'rspec-rails', '~> 2.6'
   gem 'shoulda-matchers'
 end

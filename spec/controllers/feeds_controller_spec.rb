@@ -13,18 +13,18 @@ describe FeedsController do
                           format: :json
 
       expect(response).to be_successful
-      expect(response.status).to eql(200)
+      expect(response.status).to eql(201)
       expect(Subscription.count).to eql(1)
     end
 
-    it "should return 404 if validation fails" do
+    it "should return 422 if validation fails" do
       post :subscription, subscription: {
                             subscripter_id: subscripter_id
                           },
                           format: :json
 
       expect(response).to_not be_successful
-      expect(response.status).to eql(404)
+      expect(response.status).to eql(422)
     end
   end
 
@@ -40,18 +40,18 @@ describe FeedsController do
                    },
                    format: :json
       expect(response).to be_successful
-      expect(response.status).to eql(200)
+      expect(response.status).to eql(201)
       expect(Event.count).to eql(1)
     end
 
-    it "should return 404 if validation fails" do
+    it "should return 422 if validation fails" do
       post :event, event: {
                      subscriptee_id: subscriptee_id,
                      item_id: item_id
                    },
                    format: :json
       expect(response).to_not be_successful
-      expect(response.status).to eql(404)
+      expect(response.status).to eql(422)
     end
   end
 
@@ -68,7 +68,7 @@ describe FeedsController do
       end
 
       it "should return the feeds from subscripter" do
-        get :index, subscripter_id: subscripter_id
+        get :index, subscripter_id: subscripter_id, format: :json
         body = JSON.parse(response.body)
         expect(body.size).to eql(1)
         expect(body[0]['item_id']).to eql(item_id)
@@ -82,7 +82,7 @@ describe FeedsController do
       end
 
       it "should return the global users list" do
-        get :index, subscripter_id: subscripter_id
+        get :index, subscripter_id: subscripter_id, format: :json
         body = JSON.parse(response.body)
         expect(body.size).to eql(1)
         expect(body[0]['item_id']).to eql(item_id)
